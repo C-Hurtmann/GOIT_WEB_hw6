@@ -3,11 +3,11 @@ from pathlib import Path
 
 
 def create_databases():
-    path = Path('create_dbs.sql')
+    path = Path('create_tables.sql')
     with open(path, 'r') as f:
         sql = f.read()
 
-    with connect('test.db') as con:
+    with connect('main.db') as con:
         cur = con.cursor()
         cur.executescript(sql)
     
