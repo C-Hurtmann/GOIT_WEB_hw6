@@ -1,12 +1,18 @@
-import sqlite3
+from sqlite3 import connect
+from pathlib import Path
+
 
 def create_databases():
-    with open('create_sql', 'r') as f:
+    path = Path('create_dbs.sql')
+    with open(path, 'r') as f:
         sql = f.read()
 
-    with sqlite3.connect('db.sqlite') as con:
+    with connect('test.db') as con:
         cur = con.cursor()
         cur.executescript(sql)
+    
+    con.close()
+
 
 if __name__ =='__main__':
     create_databases()
