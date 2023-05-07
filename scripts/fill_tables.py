@@ -1,3 +1,4 @@
+from datetime import datetime
 from random import randint, randrange
 from sqlite3 import connect
 from faker import Faker
@@ -32,7 +33,7 @@ def fill_students(student_qty: int):
     students_data = []
     for _ in range(student_qty):
         student_data = (fake.name(),
-                        fake.date_of_birth(),
+                        fake.date_of_birth(minimum_age=18, maximum_age=40),
                         fake.email(),
                         fake.phone_number(),
                         randint(1, 3))
@@ -68,11 +69,14 @@ def fill_teachers(teacher_qty: int):
 
 def fill_grades(students_qty: int, subject_qty: int):
     grades_data = []
-    for student_id in range(1, students_qty + 1):
+    for _ in range(20):
         for subject_id in range(1, subject_qty + 1):
-            for _ in range(randint(1, 20)):
+            date = fake.date_between_dates(date_start=datetime(2023,4,1), date_end=datetime(2023,4,30))
+            for student_id in range(1, students_qty + 1):
+                come_to_class = fake.boolean()
                 grade = randrange(5, 101, 5)
-                grades_data.append((grade, subject_id, student_id))
+                if come_to_class:
+                    grades_data.append((grade, date, subject_id, student_id))
     with open('scripts/sql_frames/grades_filler.sql') as f:
         sql = f.read()
     insert_data(sql, grades_data)

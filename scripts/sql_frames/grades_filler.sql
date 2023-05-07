@@ -1,2 +1,2 @@
-INSERT INTO grades(grade, subject_id, student_id)
-VALUES (?, ?, ?)
+INSERT INTO grades(grade, on_date, subject_id, student_id)
+VALUES (?, ?, ?, ?)

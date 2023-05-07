@@ -42,6 +42,7 @@ DROP TABLE IF EXISTS grades;
 CREATE TABLE grades (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     grade INTEGER,
+    on_date DATE,
     subject_id INTEGER,
     student_id INTEGER,
     FOREIGN KEY (subject_id) REFERENCES subjects (id)
