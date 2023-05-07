@@ -1,4 +1,4 @@
 SELECT su.title, t.fullname
-FROM teachers as t
-JOIN subjects as su ON t.subject_id = su.id
-WHERE su.title = "Architecture";
+FROM subjects as su
+JOIN teachers as t ON su.teacher_id = t.id
+WHERE t.fullname = "Joseph Davis";
