@@ -1,2 +1,2 @@
-INSERT INTO subjects(title)
-VALUES (?)
+INSERT INTO subjects(title, teacher_id)
+VALUES (?, ?)

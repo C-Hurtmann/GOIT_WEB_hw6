@@ -1,2 +1,2 @@
-INSERT INTO teachers(fullname, subject_id)
-VALUES (?, ?)
+INSERT INTO teachers(fullname)
+VALUES (?)

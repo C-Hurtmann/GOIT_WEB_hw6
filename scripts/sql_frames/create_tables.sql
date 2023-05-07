@@ -23,18 +23,18 @@ CREATE TABLE groups (
 DROP TABLE IF EXISTS teachers;
 CREATE TABLE teachers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    fullname VARCHAR(100) NOT NULL,
-    subject_id INTEGER,
-    FOREIGN KEY (subject_id) REFERENCES subjects (id)
-        ON DELETE NO ACTION
-        ON UPDATE CASCADE
+    fullname VARCHAR(100) NOT NULL
 );
 
 -- Table subjects
 DROP TABLE IF EXISTS subjects;
 CREATE TABLE subjects (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title VARCHAR (50) NOT NULL
+    title VARCHAR (50) NOT NULL,
+    teacher_id INTEGER,
+    FOREIGN KEY (teacher_id) REFERENCES teachers (id)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
 );
 
 -- Table grades

@@ -4,15 +4,15 @@ from faker import Faker
 
 
 STUDENTS_QTY = 50
-TEACHERS_QTY = 10
-SUBJECTS = (('Accounting',),
-            ('Design',),
-            ('Architecture',),
-            ('Manufacturing Engineering',),
-            ('Law',),
-            ('Economics',),
-            ('Medicine',),
-            ('Computer Science',))
+TEACHERS_QTY = 5
+SUBJECTS = ('Accounting',
+            'Design',
+            'Architecture',
+            'Manufacturing Engineering',
+            'Law',
+            'Economics',
+            'Medicine',
+            'Computer Science')
 
 fake = Faker()
 
@@ -28,9 +28,9 @@ def fill_groups():
     insert_data(sql, group_names)
     print('Groups filled')
 
-def fill_students(qty):
+def fill_students(student_qty: int):
     students_data = []
-    for _ in range(qty):
+    for _ in range(student_qty):
         student_data = (fake.name(),
                         fake.date_of_birth(),
                         fake.email(),
@@ -42,29 +42,31 @@ def fill_students(qty):
     insert_data(sql, students_data)
     print('Students filled')
 
-def fill_subjects():
+def fill_subjects(subjects: tuple, teacher_qty: int):
     with open('scripts/sql_frames/subjects_filler.sql') as f:
         sql = f.read()
-    insert_data(sql, SUBJECTS)
+    subjects_data = []
+    teachers_id_list = list(range(1, teacher_qty+1))
+    for i in subjects:
+        try:
+            teacher_id = teachers_id_list.pop(randint(0, len(teachers_id_list)))
+        except IndexError:
+            teacher_id = randint(1, teacher_qty)
+        subjects_data.append((i, teacher_id))
+    insert_data(sql, subjects_data)
     print('Subjects filled')
 
-def fill_teachers(qty):
+def fill_teachers(teacher_qty: int):
     teachers_data = []
-    subjects = list(range(1, 8+1))
-    for _ in range(qty):
-        try:
-            random_subject = subjects.pop(randint(0, len(subjects)))
-        except IndexError:
-            random_subject = randint(1, 8)
-        teacher_data = (fake.name(),
-                        random_subject)
+    for _ in range(teacher_qty):
+        teacher_data = ((fake.name(),))
         teachers_data.append(teacher_data)
     with open('scripts/sql_frames/teachers_filler.sql') as f:
         sql = f.read()
     insert_data(sql, teachers_data)
     print('Teachers filled')
 
-def fill_grades(students_qty, subject_qty):
+def fill_grades(students_qty: int, subject_qty: int):
     grades_data = []
     for student_id in range(1, students_qty + 1):
         for subject_id in range(1, subject_qty + 1):
@@ -75,5 +77,11 @@ def fill_grades(students_qty, subject_qty):
         sql = f.read()
     insert_data(sql, grades_data)
     print('Grades filled')
+
+
 if __name__ == '__main__':
+    fill_groups()
+    fill_students(STUDENTS_QTY)
+    fill_subjects(SUBJECTS, TEACHERS_QTY)
+    fill_teachers(TEACHERS_QTY)
     fill_grades(STUDENTS_QTY, len(SUBJECTS))
