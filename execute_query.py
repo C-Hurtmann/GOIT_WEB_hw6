@@ -22,4 +22,6 @@ if __name__ == '__main__':
     query_8 = execute(Path('queries/query_8.sql'))
     query_9 = execute(Path('queries/query_9.sql'))
     query_10 = execute(Path('queries/query_10.sql'))
-    pprint(query_10)
+    query_11 = execute(Path('queries/query_11.sql'))
+    query_12 = execute(Path('queries/query_12.sql')) 
+    pprint(query_12)
